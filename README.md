@@ -1,4 +1,4 @@
-# School-Project-E-commerce
+# School Project E-commerce
 Barcode weighing scale in Python using custom tkinter (Student 2 and 3 conbined)
 
 # Main Objective
