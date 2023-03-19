@@ -26,4 +26,4 @@ Finally, the payment operator will package the products for the customer and upd
     • Design of the barcode reader management software module.
     • Coding of the software module for printing a paper invoice.    
 
-![image](https://user-images.githubusercontent.com/51377697/226215070-44a0d189-7a3b-4d38-8570-a088933494a5.png)
+![image](https://user-images.githubusercontent.com/51377697/226215103-534e1a4a-c9e9-43db-8e60-c2ffe88172b6.png)
