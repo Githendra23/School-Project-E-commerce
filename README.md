@@ -25,3 +25,5 @@ Finally, the payment operator will package the products for the customer and upd
 - Student 4: BILLING Module
     • Design of the barcode reader management software module.
     • Coding of the software module for printing a paper invoice.    
+
+![image](https://user-images.githubusercontent.com/51377697/226215070-44a0d189-7a3b-4d38-8570-a088933494a5.png)
