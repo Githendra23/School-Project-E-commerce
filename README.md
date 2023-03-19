@@ -11,19 +11,19 @@ Finally, the payment operator will package the products for the customer and upd
 
 # Tasks:
 Student 1: Design of the WEB / Database module
-    - Database management software module coding.
-    - Coding of the dynamic web page management software module.
+- Database management software module coding.
+- Coding of the dynamic web page management software module.
     
 Student 2: PAYMENT module design
-    - Installing the USB smart card reader.
-    - Implementation of a paper ticket printing.
+- Installing the USB smart card reader.
+- Implementation of a paper ticket printing.
               
 Student 3: WEIGH software module design
-    - Scale management on serial line.
-    - Printing a ticket with "barcode".
+- Scale management on serial line.
+- Printing a ticket with "barcode".
     
 Student 4: BILLING Module
-    - Design of the barcode reader management software module.
-    - Coding of the software module for printing a paper invoice.    
+- Design of the barcode reader management software module.
+- Coding of the software module for printing a paper invoice.    
 
 ![image](https://user-images.githubusercontent.com/51377697/226215151-4cf83bd5-3ea9-4b44-abc5-f20e182b3582.png)
