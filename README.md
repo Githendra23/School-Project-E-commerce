@@ -2,7 +2,7 @@
 Barcode weighing scale in Python using custom tkinter (Student 2 and 3 conbined)
 
 # Main Objective
-The main objective of this project is to a create service that will allow customers to order groceries online on a website and after go to the store to have their shopping loaded into the trunk of their cars, by a store employee. 
+The primary goal of this project is to develop a service that enables customers to place grocery orders online via a website and then have a store employee load their purchases into the trunk of their vehicles upon arrival at the store. 
 
 # Scenario
 The customer should be able to place their orders through a website. The order is received by the order preparer who then retrieves the products. For perishable products such as fruits and vegetables, they need to be weighed and labeled with a barcode for all items, which are then given to the invoice manager to create a bill. An operator will scan the barcode of all products using a barcode scanner, thus updating the database on inventory management and generating the invoice for the final consumer.
