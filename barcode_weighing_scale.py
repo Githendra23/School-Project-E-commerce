@@ -1,18 +1,14 @@
-from tkinter import Entry, Button, Toplevel
 from tkinter import *
-from tkinter import ttk
 from zebra import Zebra
 from io import BytesIO
 from PIL import Image, ImageTk
-from tkinter import Tk
 import customtkinter as ctk
-import tkinter as tk
-import os, serial, mysql.connector, time, atexit, requests
+import serial, mysql.connector, atexit, requests
 
 weightProduct = None
 idProduct = None
-appWidth, appHeight = 460, 325 # 460, 325
-
+appWidth, appHeight = 460, 325
+img_size = (50, 50)
 rowX, columnY = 2, 0
 
 buttonsArr = [[] for _ in range(2)]
@@ -149,7 +145,7 @@ def id(product_name):
     global idProduct
     
     if product_name is not None:
-        sql_query = "SELECT PRODUIT_ID FROM produit WHERE NOM_PRODUIT = %s"
+        sql_query = "SELECT id FROM produit WHERE NOM_PRODUIT = %s"
         mycursor.execute(sql_query, (product_name,))
 
         id = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
@@ -158,70 +154,67 @@ def id(product_name):
 
 def print_barcode():
     printer = Printer()
-    
     printer.send_command(generate_barcode(idProduct, weightProduct))
 
 def quit():
     mydb.close()
     root.quit()
     root.destroy()
-    
+
+# execute this function when the window is closed using the red close button
 def exit_handler():
     mydb.close()
 
 try:
     mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="site_e-commerce"
+    host     = "localhost",
+    user     = "root",
+    password = "",
+    database = "site_e-commerce"
     )
     numberOfProducts = 0
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT MIN(PRODUIT_ID) AS first_id FROM produit;") # first product
+    mycursor.execute("SELECT MIN(id) AS first_id FROM produit;") # first product
     firstID = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
 
-    mycursor.execute("SELECT MAX(PRODUIT_ID) AS first_id FROM produit;") # last product
+    mycursor.execute("SELECT MAX(id) AS first_id FROM produit;") # last product
     lastID = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
 
     for i in range(firstID, lastID + 1):
-        mycursor.execute(f"SELECT NOM_PRODUIT FROM produit WHERE PRODUIT_ID = {i} AND TYPE = 'périssables'")
+        mycursor.execute(f"SELECT NOM_PRODUIT FROM produit WHERE id = {i} AND TYPE = 'périssables'")
         nameItem = (str(mycursor.fetchone())).replace("('", "").replace("',)", "")
         if nameItem != "None":
             productsTable[0].append(nameItem)
             numberOfProducts += 1
-            print(i)
 
-        mycursor.execute(f"SELECT URL FROM produit WHERE PRODUIT_ID = {i} AND TYPE = 'périssables'")
+        mycursor.execute(f"SELECT URL FROM produit WHERE id = {i} AND TYPE = 'périssables'")
         url = (str(mycursor.fetchone())).replace("('", "").replace("',)", "")
         if url != "None":
             productsTable[1].append(url)
         
-    # Basic parameters and initializations
     # Supported modes : Light, Dark, System
     ctk.set_appearance_mode("System")
     
     # Supported themes : green, dark-blue, blue
     ctk.set_default_color_theme("green")   
 
-
     root.title("EAN-13 Code Barre")
 
-    # Name Label
+    # Weight Label
     weightLabel = ctk.CTkLabel(root,
                                     text = "Poids")
     weightLabel.grid(row = 0, column = 0,
                         padx = 20, pady = (20, 10),
                         sticky = "ew")
-    # Name Entry Field
+    # Weight Entry Field
     weightEntry = ctk.CTkEntry(root,
                         state = 'disabled')
     weightEntry.grid(row = 0, column = 1,
                         columnspan = 1, padx = 20,
                         pady = (20, 10), sticky = "ew")
 
-    # weight Button
+    # Display the weight Button
     scale = Scale()
     quitButton = ctk.CTkButton(root, text = "Afficher", 
                                     command = scale.weight)
@@ -231,21 +224,20 @@ try:
                                     sticky = "ew")
 
     # -------- buttons ------------------------------------------------------
-    """mycursor.execute("SELECT COUNT(*) NOM_PRODUIT FROM produit") # number of products
-    numberOfProducts = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))"""
-    
     btn = CustomButton()
     print(numberOfProducts)
     for i in range(numberOfProducts):
+        
         # buttons and resize images
         img_url = productsTable[1][i]
-        img_size = (50, 50)
         img = load_image_from_url(img_url, img_size)
         
         button = ctk.CTkButton(root,
                             image = img, text = productsTable[0][i],
                             compound = "top", command = id(productsTable[0][i]))
         num = str(button)
+        
+        # detect the mouse hovering the buttons
         button.bind("<Button-1>"       , lambda e, buttons = buttonsArr[0], button = button:         btn.on_click(buttons, button))
         button.bind("<Enter>"          , lambda e, buttons = buttonsArr[0], button = button: btn.buttonEnterHover(buttons, button))
         button.bind("<Leave>"          , lambda e, buttons = buttonsArr[0], button = button: btn.buttonLeaveHover(buttons, button))
@@ -263,11 +255,7 @@ try:
         buttonsArr[0].append(button)
         buttonsArr[1].append("green")
         columnY += 1
-        #print(1 if (num == ".!ctkbutton") else int(num.replace(".!ctkbutton", "")))
 
-    # ---------------------------------------------------------------------------------------
-
-    # Generate Button
     printButton = ctk.CTkButton(root, 
                                     command = print_barcode,
                                     text = "Imprimez Code Barre")
@@ -282,10 +270,13 @@ try:
                                     columnspan = 1,
                                     padx = 20, pady = 5,
                                     sticky = "ew")
+    # ---------------------------------------------------------------------------------------
+
     root.resizable(False,False)
     atexit.register(exit_handler)
     root.geometry(f"{appWidth}x{appHeight}")
     root.iconphoto(False, load_image_from_url("https://cdn-icons-png.flaticon.com/512/2432/2432797.png", img_size))
+    idProduct = None
     root.mainloop()
 
 except mysql.connector.Error as e:
@@ -309,15 +300,15 @@ except mysql.connector.Error as e:
     weightLabel = ctk.CTkLabel(error_window,
                                     text="Connexion impossible BDD")
     weightLabel.grid(row = 0, column = 0,
-                        padx = 65, pady = 20,
-                        sticky = "ew")
+                    padx = 65, pady = 20,
+                    sticky = "ew")
     
     quitButton = ctk.CTkButton(error_window, text = "Ok", 
                                     command = error_window.destroy)
     quitButton.grid(row = 1, column = 0,
-                                    columnspan = 2,
-                                    padx = 70, pady = 5,
-                                    sticky = "ew")
+                    columnspan = 2,
+                    padx = 70, pady = 5,
+                    sticky = "ew")
 
     error_window.grab_set()
     error_window.mainloop()
