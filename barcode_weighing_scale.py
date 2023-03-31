@@ -169,7 +169,7 @@ def exit_handler():
     mydb.close()
 
 try:
-    mydb = mysql.connector.connect(
+    mydb     = mysql.connector.connect(
     host     = "localhost",
     user     = "root",
     password = "",
@@ -178,10 +178,12 @@ try:
     numberOfProducts = 0
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT MIN(id) AS first_id FROM produit;") # first product
+    # get the id of the first perishable product from the produit table 
+    mycursor.execute("SELECT MIN(id) AS first_id FROM produit;")
     firstID = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
 
-    mycursor.execute("SELECT MAX(id) AS first_id FROM produit;") # last product
+    # get the id of the last perishable product from the produit table 
+    mycursor.execute("SELECT MAX(id) AS first_id FROM produit;")
     lastID = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
 
     for i in range(firstID, lastID + 1):
@@ -246,12 +248,13 @@ try:
         button.bind("<Leave>"          , lambda e, buttons = buttonsArr[0], button = button: btn.buttonLeaveHover(buttons, button))
         button.bind("<ButtonRelease-1>", lambda e, buttons = buttonsArr[0], button = button:    btn.buttonClicked(buttons, button))
 
-        if (1 if (i == 0) else i) % 3 == 0:
-            rowX += 1
-            columnY = 0
+        if i != 0:
+            if i % 3 == 0:
+                rowX += 1
+                columnY = 0
 
-        if (1 if (i == 0) else i) % 4 == 0:
-            appHeight += 100
+            if i % 4 == 0:
+                appHeight += 100
         
         button.grid(column = columnY, row = rowX, columnspan = 1,
                     padx = (0, 0), pady = 10)
@@ -282,6 +285,7 @@ try:
     idProduct = None
     root.mainloop()
 
+# if any error from the database
 except mysql.connector.Error as e:
     print("Error reading data from MySQL table", e)
     
