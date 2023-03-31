@@ -5,7 +5,6 @@ from PIL import Image, ImageTk
 import customtkinter as ctk
 import serial, mysql.connector, atexit, requests
 
-weightProduct = None
 idProduct = None
 appWidth, appHeight = 460, 325
 img_size = (50, 50)
@@ -31,10 +30,14 @@ class Printer:
             z = Zebra('ZDesigner GK420d')
             z.output(label)
 
-class Scale:    
-    def weight(self):
-        global weightProduct
-        
+class Scale:
+    def __init__(self):
+        self.weightProduct = None    
+    
+    def getWeight(self):
+        return self.weightProduct
+
+    def weight(self): 
         ser = serial.Serial()
         ser.port = "COM1"
         ser.baudrate = 9600
@@ -49,29 +52,29 @@ class Scale:
 
         if data:
             if data.strip().find("M") != -1: # == False
-                weightProduct = data.strip().replace("M        ","")
+                scaleOutput = data.strip().replace("M        ","")
                 
                 weightEntry.configure(state = 'normal', justify = CENTER)
                 weightEntry.delete(0, "end")
-                weightEntry.insert(1, weightProduct)
+                weightEntry.insert(1, scaleOutput)
                 weightEntry.configure(state = 'disabled')
                 
-                weightProduct = int(weightProduct.replace(" g",""))
+                self.weightProduct = int(scaleOutput.replace(" g",""))
             else:
-                weightProduct = weightProduct = data.strip().replace("           ","")
+                scaleOutput = data.strip().replace("           ","")
                 weightEntry.configure(state = 'normal', justify = CENTER)
                 weightEntry.delete(0, "end")
-                weightEntry.insert(1, weightProduct)
+                weightEntry.insert(1, scaleOutput)
                 weightEntry.configure(state = 'disabled')
                 
-                weightProduct = int(data.strip().replace(" g",""))
+                self.weightProduct = int(scaleOutput.strip().replace(" g",""))
         else:
             weightEntry.configure(state = 'normal', justify = CENTER)
             weightEntry.delete(0, "end")
             weightEntry.insert(1, "Erreur")
             weightEntry.configure(state = 'disabled')
             
-            weightProduct = None
+            self.weightProduct = None
 
         ser.close()
 
@@ -87,7 +90,6 @@ class CustomButton:
                     b.configure(fg_color = "#1f6aa5") # blue
                     
     def buttonClicked(self, buttons, button):
-        # global buttonsArr
 
         for b in buttons:
             checkButtonName = str(b)
@@ -154,7 +156,8 @@ def id(product_name):
 
 def print_barcode():
     printer = Printer()
-    printer.send_command(generate_barcode(idProduct, weightProduct))
+    scale = Scale()
+    printer.send_command(generate_barcode(idProduct, scale.getWeight))
 
 def quit():
     mydb.close()
