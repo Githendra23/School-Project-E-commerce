@@ -1,5 +1,5 @@
 <h1 align="center">School Project E-commerce</h1>
-Barcode weighing scale in Python using custom tkinter (Student 2 and 3 conbined)
+Barcode weighing scale in Python using custom tkinter (Student 3)
 
 ![image](https://user-images.githubusercontent.com/51377697/226215151-4cf83bd5-3ea9-4b44-abc5-f20e182b3582.png)
 
