@@ -1,6 +1,8 @@
 # School Project E-commerce
 Barcode weighing scale in Python using custom tkinter (Student 2 and 3 conbined)
 
+![image](https://user-images.githubusercontent.com/51377697/226215151-4cf83bd5-3ea9-4b44-abc5-f20e182b3582.png)
+
 # Main Objective
 The primary goal of this project is to develop a service that enables customers to place grocery orders online via a website and then have a store employee load their purchases into the trunk of their vehicles upon arrival at the store. 
 
@@ -25,5 +27,3 @@ Student 3: WEIGH software module design
 Student 4: BILLING Module
 - Design of the barcode reader management software module.
 - Coding of the software module for printing a paper invoice.    
-
-![image](https://user-images.githubusercontent.com/51377697/226215151-4cf83bd5-3ea9-4b44-abc5-f20e182b3582.png)
