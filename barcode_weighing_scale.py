@@ -21,8 +21,7 @@ root = ctk.CTk()
 
 class Printer:
     def send_command(self, barcode):
-
-        if barcode is not None:
+        if barcode:
             # ZPL command
             label = f"""
             ^XA
@@ -37,10 +36,10 @@ class Printer:
 
 class Scale:
     def __init__(self):
-        self.weightProduct = None    
-    
+        self.weightProduct = None
+        
     def getWeight(self):
-        return self.weightProduct
+        return self.weightProduct   
 
     def setWeight(self): 
         ser = serial.Serial()
@@ -52,6 +51,7 @@ class Scale:
         ser.timeout = 1
 
         ser.open()
+        ser.write(b"s")
 
         data = ser.readline().decode('ascii')
 
@@ -101,6 +101,7 @@ class CustomButton:
 
         for b in self.buttons:
             checkButtonName = str(b)
+            
             if b == button:
                 if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - 2] == "blue":
                     b.configure(fg_color = "#144870") # dark blue
@@ -148,7 +149,6 @@ def generate_barcode(product_id, product_weight):
         return None
 
     barcode = int("{:06d}{:05d}".format(product_id, product_weight))
-    print(barcode)
     return barcode
 
 def get_product_id(product_name):
@@ -160,12 +160,14 @@ def get_product_id(product_name):
 
         id = int(str(mycursor.fetchone()).replace("(", "").replace(",)", ""))
         
-        idProduct = id      
+        idProduct = id     
 
 def print_barcode():
+    global scale
+    
     printer = Printer()
-    scale = Scale()
-    printer.send_command(generate_barcode(idProduct, scale.getWeight))
+    print(idProduct)
+    printer.send_command(generate_barcode(idProduct, scale.getWeight()))
 
 def quit():
     mydb.close()
@@ -240,7 +242,6 @@ if __name__ == "__main__":
                                         sticky = "ew")
 
         # -------- custom product buttons ------------------------------------------------------
-        print(numberOfProducts)
         customButton = CustomButton(buttonsArr[0])
         for i in range(numberOfProducts):
             
@@ -250,9 +251,8 @@ if __name__ == "__main__":
             
             button = ctk.CTkButton(root,
                                 image = img, text = productsArr[0][i],
-                                compound = "top", command = get_product_id(productsArr[0][i]))
-            num = str(button)
-            
+                                compound = "top", command = lambda productName = productsArr[0][i]: get_product_id(productName))
+
             # detect the mouse hovering the buttons
             button.bind("<Button-1>"       , lambda e, button = button:         customButton.on_click(button))
             button.bind("<Enter>"          , lambda e, button = button: customButton.buttonEnterHover(button))
@@ -272,7 +272,7 @@ if __name__ == "__main__":
             buttonsArr[0].append(button)
             buttonsArr[1].append("green")
             columnY += 1
-
+    
         printButton = ctk.CTkButton(root, 
                                         command = print_barcode,
                                         text = "Imprimez Code Barre")
