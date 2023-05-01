@@ -9,11 +9,6 @@ from scale import Scale
 
 BUTTONS_IN_A_ROW = 3
 IMG_SIZE = (50, 50)
-
-# it contains the name of each buttons and its colour
-buttonsArr  = [[] for _ in range(2)]
-# it contains the name of the products and their img link 
-productsArr = [[] for _ in range(2)]
         
 class App(ctk.CTk):
     def __init__(self):
@@ -25,6 +20,10 @@ class App(ctk.CTk):
             self.appWidth, self.appHeight = 460, 215
             self.rowX, self.columnY = 2, 0
             self.numberOfProducts = 0
+            # it contains the name of each buttons and its colour
+            self.buttonsArr  = [[] for _ in range(2)]
+            # it contains the name of the products and their img link 
+            self.productsArr = [[] for _ in range(2)]
             
             self.scale = Scale()
 
@@ -49,14 +48,14 @@ class App(ctk.CTk):
                 self.mycursor.execute(f"SELECT nom_produit FROM produit WHERE id = {i} AND TYPE = 'périssable'")
                 nameItem = (str(self.mycursor.fetchone())).replace("('", "").replace("',)", "")
                 if nameItem != "None":
-                    productsArr[0].append(nameItem)
+                    self.productsArr[0].append(nameItem)
                     self.numberOfProducts += 1
 
                 # get the url of the picture stored in the database and add it in an array
                 self.mycursor.execute(f"SELECT URL FROM produit WHERE id = {i} AND TYPE = 'périssable'")
                 url = (str(self.mycursor.fetchone())).replace("('", "").replace("',)", "")
                 if url != "None":
-                    productsArr[1].append(url)
+                    self.productsArr[1].append(url)
                 
             ctk.set_appearance_mode("Dark")
             ctk.set_default_color_theme("green")   
@@ -89,18 +88,18 @@ class App(ctk.CTk):
             for i in range(self.numberOfProducts):
                 
                 # buttons and resize images
-                img_url = productsArr[1][i]
+                img_url = self.productsArr[1][i]
                 img = self.load_image_from_url(img_url, IMG_SIZE)
                 
                 button = ctk.CTkButton(self,
-                                    image = img, text = productsArr[0][i],
-                                    compound = "top", command = lambda productName = productsArr[0][i]: self.get_product_id(productName))
+                                    image = img, text = self.productsArr[0][i],
+                                    compound = "top", command = lambda productName = self.productsArr[0][i]: self.get_product_id(productName))
 
                 # detect the mouse hovering the buttons
-                button.bind("<Button-1>"       , lambda e, buttons = buttonsArr[0], button = button:         self.on_click(button, buttons))
-                button.bind("<Enter>"          , lambda e, buttons = buttonsArr[0], button = button: self.buttonEnterHover(button, buttons))
-                button.bind("<Leave>"          , lambda e, buttons = buttonsArr[0], button = button: self.buttonLeaveHover(button, buttons))
-                button.bind("<ButtonRelease-1>", lambda e, buttons = buttonsArr[0], button = button:    self.buttonClicked(button, buttons))
+                button.bind("<Button-1>"       , lambda e, buttons = self.buttonsArr[0], button = button:         self.on_click(button, buttons))
+                button.bind("<Enter>"          , lambda e, buttons = self.buttonsArr[0], button = button: self.buttonEnterHover(button, buttons))
+                button.bind("<Leave>"          , lambda e, buttons = self.buttonsArr[0], button = button: self.buttonLeaveHover(button, buttons))
+                button.bind("<ButtonRelease-1>", lambda e, buttons = self.buttonsArr[0], button = button:    self.buttonClicked(button, buttons))
 
                 if i == 0:
                     self.appHeight += 100
@@ -112,8 +111,8 @@ class App(ctk.CTk):
                 
                 button.grid(column = self.columnY, row = self.rowX, 
                             columnspan = 1, padx = (0, 0), pady = 10)
-                buttonsArr[0].append(button)
-                buttonsArr[1].append("green")
+                self.buttonsArr[0].append(button)
+                self.buttonsArr[1].append("green")
                 self.columnY += 1
         
             printButton = ctk.CTkButton(self, 
@@ -180,54 +179,47 @@ class App(ctk.CTk):
     # ------------- Custom Button ------------------------
     
     def buttonLeaveHover(self, button, buttons):  
-        global buttonsArr
-
         for b in buttons:
             checkButtonName = str(b)
 
             if b == button:
-                if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
+                if self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
                     b.configure(fg_color = "#1f6aa5") # blue
                     
     def buttonClicked(self, button, buttons):
-
         for b in buttons:
             checkButtonName = str(b)
             
             if b == button:
-                if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
+                if self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
                     b.configure(fg_color = "#144870") # dark blue
             else:
-                if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
+                if self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
                     b.configure(fg_color = "#1f6aa5") # blue
 
     def buttonEnterHover(self, button, buttons):
-        global buttonsArr
-
         for b in buttons:
             checkButtonName = str(b)
             
             if b == button:
-                if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
+                if self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
                     b.configure(fg_color = "#144870") # dark blue
             else:
-                if buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
+                if self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] == "blue":
                     b.configure(fg_color = "#1f6aa5") # blue
 
     def on_click(self, button, buttons):
-        global buttonsArr
-        
         for b in buttons:
             checkButtonName = str(b)
             
             if b == button:
                 b.configure(fg_color = "#1f6aa5") # blue
-                buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] = "blue"
-                id(productsArr[0][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber])
+                self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] = "blue"
+                id(self.productsArr[0][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber])
 
             else:
                 b.configure(fg_color="#2fa572") # green
-                buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] = "green"
+                self.buttonsArr[1][0 if (checkButtonName == ".!ctkbutton") else int(checkButtonName.replace(".!ctkbutton", "")) - self.lastButtonNumber] = "green"
 
     # ----------------------------------------------------
 
@@ -253,7 +245,6 @@ class App(ctk.CTk):
         return ImageTk.PhotoImage(image)
 
     def generate_barcode(self, product_id, product_weight):
-
         if product_id is None or product_weight is None:
             return None
 
