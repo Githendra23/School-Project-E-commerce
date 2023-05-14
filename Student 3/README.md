@@ -5,3 +5,4 @@ Primary goal is to create a GUI that generates and prints out a barcode label us
 The barcode contains the id and weight of the product.
 The GUI can communicate with the database, printer and scale.
 
+![scs](https://github.com/Githendra23/School-Project-E-commerce/assets/51377697/7d1b589f-cc3f-4018-b6b0-4a2560ca920d)
