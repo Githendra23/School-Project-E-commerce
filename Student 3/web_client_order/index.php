@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Commande Client</title>
         <link rel="stylesheet" href="style.css">
-        <script src="updateNonManquant_function.js"></script>
+        <script src="processOrder_function.js"></script>
     </head>
 
     <body>
@@ -29,9 +29,7 @@
             <h1 class="centerMargin">Traitement des paniers</h1>
             <?php
 
-            $checkbox_id = 0;
-            for ($i = 0; $i < $number_of_orders; $i++) 
-            {
+            for ($i = 0; $i < $number_of_orders; $i++) {
                 ?>
                 <table>
                     <tr>
@@ -42,10 +40,9 @@
                         <th>Quantité</th>
                         <th><?php echo $customerOrder[$i]->getOrder_date(); ?></th>
                     </tr>
+                    
                     <?php
-
-                    for ($j = 0; $j < $customerOrder[$i]->getTotalProducts(); $j++)
-                    {
+                    for ($j = 0; $j < $customerOrder[$i]->getTotalProducts(); $j++) {
                         $product_name = $customerOrder[$i]->getProductName($j);
                         $product_quantity = $customerOrder[$i]->getProductQuantity($j);
                         $product_id = $customerOrder[$i]->getProductId($j);
@@ -54,21 +51,28 @@
                         <tr>
                             <td><?php echo $product_name; ?></td>
                             <td><?php echo $product_quantity; ?></td>
-                            <td><input type="checkbox" name="<?php echo $product_id ?>" class="<?php echo $order_id; ?>" id="<?php echo $checkbox_id ?>" <?php if($customerOrder[$i]->getProductAvailable($j) == "true") { echo "checked"; } ?>></td>
+                            <td>
+                                <input type="checkbox"
+                                    class="checkbox"
+                                    data-product-quantity="<?php echo $product_quantity; ?>"
+                                    data-product-id="<?php echo $product_id; ?>"
+                                    id="<?php echo $order_id . '-' . $j; ?>"
+                                    <?php if ($customerOrder[$i]->getProductAvailable($j) == "true") { echo "checked"; } ?>>
+                            </td>
                         </tr>
                         <?php
-                        $checkbox_id++;
                     }
                     ?>
-                    </table>
-                    <table style="border-color: transparent;">
+                </table>
+                <table style="border-color: transparent;">
                     <tr>
                         <th colspan="3" style="background-color : transparent;">
-                            <button id="<?php echo $customerOrder[$i]->getOrder_id(); ?>" onclick="updateNonManquant(<?php echo $customerOrder[$i]->getOrder_id(); ?>, <?php echo $checkbox_id - $customerOrder[$i]->getTotalProducts();?>, <?php echo $checkbox_id;?>)">Valider</button>
+                            <button id="<?php echo $customerOrder[$i]->getOrder_id(); ?>"
+                                    onclick="processOrder(<?php echo $customerOrder[$i]->getOrder_id(); ?>, <?php echo $customerOrder[$i]->getTotalProducts(); ?>)">Valider</button>
                         </th>
                     </tr>
                 </table>
-                
+
                 <br> <br>
                 <?php
             }

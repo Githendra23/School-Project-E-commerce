@@ -1,10 +1,10 @@
 <?php
 require_once "customerOrder.class.php";
 
-$servername = "mysql-projet-e-commerce.alwaysdata.net";
-$username = "312817";
-$password = "LucasRatonLaveur";
-$dbname = "projet-e-commerce_bdd";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "site_e-commerce";
 
 $link = new mysqli($servername, $username, $password, $dbname);
 if ($link->connect_error)
@@ -39,8 +39,6 @@ else
                 
                 $get_client_id = $link->query("SELECT client_id FROM commande WHERE num_commande = {$customerOrder[$i]->getOrder_id()}");
                 $customerOrder[$i]->setID($get_client_id->fetch_assoc()["client_id"]);
-
-                $get_client_id = $link->query("SELECT client_id FROM commande WHERE num_commande = {$customerOrder[$i]->getOrder_id()}");
                 
                 $get_date_order = $link->query("SELECT date_commande FROM commande WHERE num_commande = {$customerOrder[$i]->getOrder_id()}");
                 $customerOrder[$i]->setOrder_date($get_date_order->fetch_assoc()["date_commande"]);
@@ -65,11 +63,11 @@ else
                     $get_product_quantity = $link->query("SELECT quantite FROM article WHERE num_commande = {$customerOrder[$i]->getOrder_id()} AND produit_id IN (SELECT id FROM produit WHERE nom_produit = '{$customerOrder[$i]->getProductName($j)}')");
                     $customerOrder[$i]->setProductQuantity($j, $get_product_quantity->fetch_assoc()["quantite"]);
 
-                    $get_product_id = $link->query("SELECT id FROM article WHERE num_commande = {$customerOrder[$i]->getOrder_id()} AND produit_id IN (SELECT id FROM produit WHERE nom_produit = '{$customerOrder[$i]->getProductName($j)}')");
+                    $get_product_id = $link->query("SELECT id FROM produit WHERE nom_produit = '{$customerOrder[$i]->getProductName($j)}'");
                     $customerOrder[$i]->setProductId($j, $get_product_id->fetch_assoc()["id"]);
-                    
-                    $result = $link->query("SELECT IF(etat_stock = 1, 'true', 'false') AS non_manquant_checked FROM article WHERE id = {$customerOrder[$i]->getProductId($j)}");
-                    $customerOrder[$i]->setProductAvailable($j, $result->fetch_assoc()["non_manquant_checked"]);
+
+                    $item_id = $link->query("SELECT IF(etat_stock = 1, 'true', 'false') AS non_manquant_checked FROM article WHERE num_commande = {$customerOrder[$i]->getOrder_id()} AND produit_id IN (SELECT id FROM produit WHERE nom_produit = '{$customerOrder[$i]->getProductName($j)}')");   
+                    $customerOrder[$i]->setProductAvailable($j, $item_id->fetch_assoc()["non_manquant_checked"]);
                 }
             }
         }
