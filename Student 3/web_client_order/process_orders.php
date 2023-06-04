@@ -1,10 +1,10 @@
 <?php
 require_once "customerOrder.class.php";
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "site_e-commerce";
+$servername = "mysql-projet-e-commerce.alwaysdata.net";
+$username = "312817";
+$password = "LucasRatonLaveur";
+$dbname = "projet-e-commerce_bdd";
 
 $link = new mysqli($servername, $username, $password, $dbname);
 if ($link->connect_error)
@@ -68,7 +68,7 @@ else
                     $get_product_id = $link->query("SELECT id FROM article WHERE num_commande = {$customerOrder[$i]->getOrder_id()} AND produit_id IN (SELECT id FROM produit WHERE nom_produit = '{$customerOrder[$i]->getProductName($j)}')");
                     $customerOrder[$i]->setProductId($j, $get_product_id->fetch_assoc()["id"]);
                     
-                    $result = $link->query("SELECT IF(non_manquant = 1, 'true', 'false') AS non_manquant_checked FROM article WHERE id = {$customerOrder[$i]->getProductId($j)}");
+                    $result = $link->query("SELECT IF(etat_stock = 1, 'true', 'false') AS non_manquant_checked FROM article WHERE id = {$customerOrder[$i]->getProductId($j)}");
                     $customerOrder[$i]->setProductAvailable($j, $result->fetch_assoc()["non_manquant_checked"]);
                 }
             }

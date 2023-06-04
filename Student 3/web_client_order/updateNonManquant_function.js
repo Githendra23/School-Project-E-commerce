@@ -1,5 +1,5 @@
 function updateNonManquant(order_id, start, totalProducts)
-{  
+{
     for (let i = start; i < totalProducts; i++)
     {
         var checkbox = document.getElementById(i);
@@ -8,23 +8,24 @@ function updateNonManquant(order_id, start, totalProducts)
 
         if (button == order_id)
         {
+            var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
             var xhr = makeRequest();
             var sql;
 
             if (checkbox.checked)
             {
-                sql = `UPDATE article SET non_manquant = 1 WHERE id = ${product_id} AND num_commande = ${order_id}`;
+                sql = `UPDATE article SET etat_stock = 1 WHERE id = ${product_id} AND num_commande = ${order_id}`;
                 xhr.send(JSON.stringify({sql: sql}));
             } 
             else
             {     
-                sql = `UPDATE article SET non_manquant = 0 WHERE id = ${product_id} AND num_commande = ${order_id}`;
+                sql = `UPDATE article SET etat_stock = 0 WHERE id = ${product_id} AND num_commande = ${order_id}`;
                 xhr.send(JSON.stringify({sql: sql}));
             }
 
             xhr = makeRequest();
 
-            sql = `UPDATE commande SET etat_commande = 2 WHERE num_commande = ${order_id}`;
+            sql = `UPDATE commande SET etat_commande = 2, date_traitement = '${date}' WHERE num_commande = ${order_id}`;
             xhr.send(JSON.stringify({sql: sql}));
         }
     }
