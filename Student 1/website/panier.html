@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mon panier</title>
+  </head>
+  <body>
+    <h1>Mon panier</h1>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>Nom du produit</th>
+          <th>Prix</th>
+          <th>Unité</th>
+        </tr>
+      </thead>
+      <tbody id="cartTableBody">
+      </tbody>
+    </table>
+
+    <script>
+      // Récupération des données du panier à partir de la table "cart"
+      let cart = [
+        { name: 'Concombres', price: 2, unit: 'kg' },
+        { name: 'Gateau', price: 2, unit: 'kg' },
+        { name: 'Tomates', price: 3, unit: 'kg' },
+        { name: 'Oignons', price: 2, unit: 'kg' },
+        { name: 'Bonbons', price: 1, unit: 'boîte' },
+        { name: 'Ferrero Rocher', price: 5, unit: 'boîte' }
+      ];
+
+      // Référence au corps du tableau
+      let cartTableBody = document.getElementById('cartTableBody');
+
+      // Boucle sur les produits du panier pour les ajouter à la table
+      for (let i = 0; i < cart.length; i++) {
+        let product = cart[i];
+
+        // Ajout de chaque produit à la table
+        let row = `
+          <tr>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+            <td>${product.unit}</td>
+          </tr>
+        `;
+        cartTableBody.innerHTML += row;
+      }
+    </script>
+  </body>
+</html>

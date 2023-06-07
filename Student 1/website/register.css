@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* Réinitialisation des styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Utilisation de la police Google Fonts */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* HEADER */
+
+.header {
+  background-color: #3f51b5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.header__title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1; /* permet au titre de prendre toute la place disponible à droite */
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+}
+
+.header__list {
+  display: flex;
+  list-style: none;
+  margin-right: 20px;
+}
+
+.header__item {
+  margin-right: 20px;
+}
+
+.header__link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative; /* permet de positionner le pseudo-élément */
+}
+
+.header__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.header__link:hover::after {
+  width: 100%; /* permet d'étendre le pseudo-élément sur toute la largeur du lien */
+  left: 0; /* recentre le pseudo-élément */
+}
+
+.header__form {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.header__input {
+  background-color: #fff;
+  border: 1px solid #3f51b5;
+  padding: 10px;
+  border-radius: 20px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.header__input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #3f51b5;
+}
+
+.header__button {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header__button:hover {
+  background-color: #fff;
+  color: #3f51b5;
+}
+
+.header__cart {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  margin-right: 20px;
+}
+
+.header__cart:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.header__img {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  padding-top: 10px;
+}
+
+
+/* Container principal */
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre de la page */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #3f51b5;
+  text-align: center;
+}
+
+/* Formulaire de connexion */
+form {
+  margin-top: 20px;
+}
+
+/* Champ de formulaire */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Label du champ */
+.form-group label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #3f51b5;
+}
+
+/* Champ de saisie */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  height: 40px;
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Message d'erreur */
+.errors {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.errors p {
+  margin: 0;
+}
+
+/* Bouton de soumission */
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background-color: #3f51b5;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Lien de connexion */
+a {
+  color: #3f51b5;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+/* Styles pour le lien "Se connecter" */
+.container p a {
+color: #3f51b5;
+text-decoration: none;
+}
+
+.container p a:hover {
+text-decoration: underline;
+}
+
+/* Styles pour les messages d'erreur */
+.errors {
+background-color: #f8d7da;
+color: #721c24;
+padding: 10px;
+margin-bottom: 20px;
+border-radius: 4px;
+}
+
+.errors p {
+margin: 0;
+padding: 0;
+}
+
+/* Styles pour le bouton de soumission lorsqu'il est désactivé */
+.btn:disabled {
+background-color: #ccc;
+color: #777;
+cursor: not-allowed;
+}
+
+/* Styles pour le bouton de soumission lorsqu'il est activé */
+.btn:not(:disabled):hover {
+background-color: #304ffe;
+}

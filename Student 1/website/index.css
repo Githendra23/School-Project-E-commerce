@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+
+.header {
+  background-color: #3f51b5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.header__title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1; /* permet au titre de prendre toute la place disponible à droite */
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+}
+
+.header__list {
+  display: flex;
+  list-style: none;
+  margin-right: 20px;
+}
+
+.header__item {
+  margin-right: 20px;
+}
+
+.header__link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative; /* permet de positionner le pseudo-élément */
+}
+
+.header__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.header__link:hover::after {
+  width: 100%; /* permet d'étendre le pseudo-élément sur toute la largeur du lien */
+  left: 0; /* recentre le pseudo-élément */
+}
+
+.header__form {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.header__input {
+  background-color: #fff;
+  border: 1px solid #3f51b5;
+  padding: 10px;
+  border-radius: 20px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.header__input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #3f51b5;
+}
+
+.header__button {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header__button:hover {
+  background-color: #fff;
+  color: #3f51b5;
+}
+
+.header__cart {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  margin-right: 20px;
+}
+
+.header__cart:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.header__img {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  padding-top: 10px;
+}
+
+
+/* MAIN */
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+  /*--------------------------PRODUCT----------------------------*/
+
+  .product {
+    background-color: #fff;
+    border: 1px solid #3f51b5;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px #3f51b5;
+    transition: all 0.3s ease;
+  }
+
+  .product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px #3f51b5;
+  }
+
+  .product__name {
+    color: #3f51b5;
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .product__price {
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .product img {
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+  }
+
+
+  .add-to-cart {
+      background-color: #3f51b5;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Poppins", sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 20px;
+  }
+
+  .add-to-cart:hover {
+      background-color: #fff;
+      color: #3f51b5;
+  }
+  .footer {
+    background-color: #3f51b5;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    box-shadow: 0px -2px 3px rgba(0,0,0,0.3);
+  }
+
+  .footer__copyright {
+    margin: 0;
+    text-align: center;
+  }
