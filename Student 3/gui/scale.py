@@ -1,17 +1,16 @@
 import serial
 
 class Scale:
-    def __init__(self):
-        self.weightProduct = None
-        self.scaleOutput = None
+    weightProduct = None
+    scaleOutput = None
 
+    def __init__(self):
         self.ser = serial.Serial()
         self.ser.port = "COM1"
         self.ser.baudrate = 9600
         self.ser.bytesize = serial.EIGHTBITS
         self.ser.parity = serial.PARITY_NONE
-        self.ser.stopbits = serial.STOPBITS_ONE
-        self.ser.timeout = 1   
+        self.ser.stopbits = serial.STOPBITS_ONE  
 
     def setWeight(self): 
         self.ser.open()
