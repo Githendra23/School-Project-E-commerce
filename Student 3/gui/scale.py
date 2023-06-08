@@ -12,23 +12,30 @@ class Scale:
         self.ser.parity = serial.PARITY_NONE
         self.ser.stopbits = serial.STOPBITS_ONE  
 
-    def setWeight(self): 
-        self.ser.open()
-        self.ser.write(b"s")
+    def setWeight(self):
+        try:
+            self.ser.open()
+            self.ser.write(b"s")
 
-        data = self.ser.readline().decode('ascii')
+            data = self.ser.readline().decode('ascii')
 
-        if data:
-            if data.strip().find("M") != -1: # == False
-                self.scaleOutput = data.strip().replace("M        ","")
-                self.weightProduct = int(self.scaleOutput.replace(" g",""))
+            if data:
+                if data.strip().find("M") != -1: # == False
+                    self.scaleOutput = data.strip().replace("M        ","")
+                    self.weightProduct = int(self.scaleOutput.replace(" g",""))
+                else:
+                    self.scaleOutput = data.strip().replace("        ","")  
+                    self.weightProduct = int(self.scaleOutput.strip().replace(" g",""))
             else:
-                self.scaleOutput = data.strip().replace("        ","")  
-                self.weightProduct = int(self.scaleOutput.strip().replace(" g",""))
-        else:
+                self.weightProduct = None
+                
+        except serial.SerialException as e:
+            print(f"Erreur d'ouverture du port serie: {str(e)}")
             self.weightProduct = None
 
-        self.ser.close()
+        finally:
+            if self.ser.is_open:
+                self.ser.close()
 
     def getWeight(self):
         return self.weightProduct
