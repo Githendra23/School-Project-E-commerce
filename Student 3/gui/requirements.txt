@@ -1,0 +1,7 @@
+pillow
+CTkMessagebox
+customtkinter
+mysql-connector-python
+requests
+pyserial
+zebra
