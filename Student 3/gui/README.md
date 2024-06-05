@@ -2,24 +2,24 @@
 
 To run the GUI application, you first need to install python version 3.11.3 and all the dependencies. Follow these steps:
 
-**1. Install Python 3.11.3:**
+**1. Install Python 3.11.3:** <br>
 Open your PowerShell terminal and install python:
 ```powershell
 Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe" -OutFile "python-3.11.3-amd64.exe"
 ```
 
-**2. Navigate to the Project Directory:** <br><br>
+**2. Navigate to the Project Directory:** <br>
 Change to the project directory:
 ```cmd
 cd <path to repo>
 ```
-**3. Install Dependencies:** <br><br>
+**3. Install Dependencies:** <br>
 Install the required dependencies by running:
 ```cmd
 python -r requirements.txt
 ```
 
-**4. Run the database**
+**4. Run the database** <br>
 To make the application work, you need to install:
 
 <a href="https://www.wampserver.com/en/download-wampserver-64bits/"><img width="48" height="48" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/WampServer-logo.svg/1200px-WampServer-logo.svg.png"/></a>
@@ -44,15 +44,14 @@ Fill in the information displayed in the image below.
 Click on the Next button, continuing to click until everything is correct, then close the software. <br>
 You have now installed the database on your local server on your machine.
 
-**4. Add products to the database**
+**4. Add products to the database**<br>
 If you run the application it would not show any products because the products table is empty.
 To add products, open your browser and search:
 ```
 http://localhost/phpmyadmin/
 ```
-To login, put *root* as the username (no password needed)
 
-Go to the *site_e-commerce* and click the products table.
+Login and go to the *site_e-commerce* and click the products table.
 
 Go to the SQL tab bar and add:
 ```sql
@@ -67,7 +66,7 @@ INSERT INTO `produit` (`id`, `NOM_PRODUIT`, `PRIX_UNITAIRE`, `POIDS`, `STOCK`, `
 
 And press **Go**
 
-**5. Run the Application:** <br><br>
+**5. Run the Application:** <br>
 Finally, run the application with:
 ```cmd
 python barcode_weighing_scale.py
